@@ -21,7 +21,7 @@ app.get('/artists', async (req, res) => {
     )
 
     const queryResponse = await pool.query(
-      'SELECT *  FROM "Artist" LIMIT $1 OFFSET $2;',
+      'SELECT *  FROM "Artist" ORDER BY "ArtistId" LIMIT $1 OFFSET $2;',
       [limit, offset]
     )
 
