@@ -14,8 +14,21 @@ app.use(express.json())
 
 app.get('/artists', async (req, res) => {
   try {
-    const response = await pool.query('SELECT *  FROM "Artist";')
-    res.json(response.rows)
+    const { limit = 10, offset = 0 } = req.query
+
+    const countResponse = await pool.query(
+      'SELECT COUNT ("ArtistId") FROM "Artist";'
+    )
+
+    const queryResponse = await pool.query(
+      'SELECT *  FROM "Artist" LIMIT $1 OFFSET $2;',
+      [limit, offset]
+    )
+
+    res.json({
+      artists: queryResponse.rows,
+      totalCount: countResponse.rows[0].count,
+    })
   } catch (e) {
     res.status(500).end(e.toString())
   }
@@ -23,9 +36,10 @@ app.get('/artists', async (req, res) => {
 
 app.post('/artists', async (req, res) => {
   try {
+    const { artistName } = req.body
     const response = await pool.query(
       `INSERT INTO "Artist" ("ArtistId", "Name") VALUES(nextval('artist_artist_id_seq'), $1) RETURNING *;`,
-      ['test']
+      [artistName]
     )
     res.json(response.rows[0])
   } catch (e) {
