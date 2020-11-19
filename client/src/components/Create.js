@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Helmet } from 'react-helmet'
 import { useMutation } from 'react-query'
 import styled from '@emotion/styled'
 
@@ -73,6 +74,10 @@ const Create = () => {
 
   return (
     <>
+      {/* TODO: Move to a separate component and add some nice JSON-LD */}
+      <Helmet>
+        <title>Create an Arist | Hasura TR</title>
+      </Helmet>
       <h2>Create an Artist</h2>
       <form onSubmit={handleOnSubmit}>
         <Input

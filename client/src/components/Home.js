@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Helmet } from 'react-helmet'
 import { useQuery } from 'react-query'
 
 import Table from './Table'
@@ -44,6 +45,10 @@ const Home = () => {
 
   return (
     <>
+      {/* TODO: Move to a separate component and add some nice JSON-LD */}
+      <Helmet>
+        <title>Home | Hasura TR</title>
+      </Helmet>
       <h2>Hello, Artists</h2>
       <Table data={data?.artists} />
       <Pagination
